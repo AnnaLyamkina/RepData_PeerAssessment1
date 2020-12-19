@@ -26,8 +26,11 @@ We use dplyr package to group data by date and sum steps in these groups. Result
 library(dplyr)
 tspd <- activity %>% 
         group_by(date) %>%
-        summarize(total_steps_per_day = sum(steps)) 
-#Note that we DO NOT use na.rm = TRUE in sum here. The reason is, this condition will replace total steps per day for days with no data with 0 and therefore will contribute significantly to mean and median value
+        summarize(total_steps_per_day = sum(steps))
+
+#Note that we DO NOT use na.rm = TRUE in sum here. The reason is, this condition will replace total steps per day for days
+#with no data with 0 and therefore will contribute significantly to mean and median value
+
 hist(tspd$total_steps_per_day,breaks = 10, main = "Histogram of total steps per day", xlab = "Total steps per day")
 ```
 
@@ -52,7 +55,8 @@ Therefore, mean total number of steps per day is 10766 and median total number o
 aspi <- activity %>% 
         group_by(interval) %>%
         summarize(averaged_steps_per_interval = mean(steps, na.rm = TRUE)) 
-plot(aspi$interval, aspi$averaged_steps_per_interval, main = "Average daily activity pattern", type = "l", xlab = "5-minute interval", ylab = "Number of steps averaged by day")
+plot(aspi$interval, aspi$averaged_steps_per_interval, main = "Average daily activity pattern", type = "l",
+     xlab = "5-minute interval", ylab = "Number of steps averaged by day")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -114,9 +118,9 @@ tspd_na <- activity_na_corrected %>%
 #Plotting parameters to place previous histogram and new one next to each other
 par(mfrow = c(1,2))
 #old histogram with NA removed
-hist(tspd$total_steps_per_day,breaks = 10, main = "Histogram of total steps per day", xlab = "Total steps per day")
+hist(tspd$total_steps_per_day,breaks = 10, main = "Total steps per day", xlab = "Total steps per day")
 #new histogram with NA replaced 
-hist(tspd_na$total_steps_per_day,breaks = 10, main = "Histogram of total steps per day, NA corrected", xlab = "Total steps per day")
+hist(tspd_na$total_steps_per_day,breaks = 10, main = "Total steps per day,NA corrected", xlab = "Total steps per day")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -161,7 +165,8 @@ library(ggplot2)
 
 ```r
 plot <- ggplot(aspi_na_wday, aes(interval, total_steps_per_day))
-plot + geom_line(color = "gold4") + facet_grid(wday~.) + labs(x = "Intervals", y = "Average Steps per Day", title = "Activity Patterns")
+plot + geom_line(color = "gold4") + facet_grid(wday~.) + labs(x = "Intervals", y = "Average Steps per Day",
+title = "Activity Patterns")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
